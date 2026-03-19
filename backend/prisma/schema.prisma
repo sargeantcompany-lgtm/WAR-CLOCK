@@ -1,0 +1,113 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum ConflictStatus {
+  ACTIVE
+  PAUSED
+  ENDED
+}
+
+enum SourceType {
+  UN
+  NGO
+  GOVERNMENT
+  MEDIA
+  ACADEMIC
+  OTHER
+}
+
+model Conflict {
+  id                    Int                    @id @default(autoincrement())
+  slug                  String                 @unique
+  name                  String
+  shortName             String
+  description           String
+  region                String
+  status                ConflictStatus
+  startDate             DateTime?
+  endDate               DateTime?
+  mainCountriesJson     String
+  sideAJson             String
+  sideBJson             String
+  tagsJson              String
+  heroLabel             String?
+  priority              Int                    @default(0)
+  featured              Boolean                @default(false)
+  createdAt             DateTime               @default(now())
+  updatedAt             DateTime               @updatedAt
+  casualtyRecords       CasualtyRecord[]
+  sources               Source[]
+  dailyCounterSnapshots DailyCounterSnapshot[]
+}
+
+model CasualtyRecord {
+  id                 Int      @id @default(autoincrement())
+  conflictId         Int
+  recordDate         DateTime
+  killedMin          Int?
+  killedMax          Int?
+  killedBest         Int?
+  injuredMin         Int?
+  injuredMax         Int?
+  injuredBest        Int?
+  civilianKilledMin  Int?
+  civilianKilledMax  Int?
+  civilianKilledBest Int?
+  childKilledMin     Int?
+  childKilledMax     Int?
+  childKilledBest    Int?
+  notes              String?
+  sourceSummary      String?
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+  conflict           Conflict @relation(fields: [conflictId], references: [id], onDelete: Cascade)
+
+  @@index([conflictId, recordDate])
+}
+
+model Source {
+  id               Int        @id @default(autoincrement())
+  conflictId       Int?
+  sourceType       SourceType
+  title            String
+  publisher        String
+  url              String
+  publishedAt      DateTime?
+  accessedAt       DateTime?
+  reliabilityScore Int?
+  notes            String?
+  createdAt        DateTime   @default(now())
+  updatedAt        DateTime   @updatedAt
+  conflict         Conflict?  @relation(fields: [conflictId], references: [id], onDelete: SetNull)
+
+  @@index([conflictId])
+}
+
+model DailyCounterSnapshot {
+  id                    Int      @id @default(autoincrement())
+  conflictId            Int
+  snapshotDate          DateTime
+  displayedKilledTotal  Int
+  displayedInjuredTotal Int?
+  dailyIncreaseKilled   Int?
+  dailyIncreaseInjured  Int?
+  smoothingHours        Int      @default(24)
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+  conflict              Conflict @relation(fields: [conflictId], references: [id], onDelete: Cascade)
+
+  @@index([conflictId, snapshotDate])
+}
+
+model SiteSetting {
+  id        Int      @id @default(autoincrement())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+}
