@@ -1,10 +1,4 @@
-import "dotenv/config";
-import { PrismaClient } from "@prisma/client";
-import { getDatabaseUrl } from "../src/config/databaseUrl";
-
-const prisma = new PrismaClient({
-  datasourceUrl: getDatabaseUrl(),
-});
+import type { PrismaClient } from "@prisma/client";
 
 type ConflictStatusValue = "ACTIVE" | "PAUSED" | "ENDED";
 type SourceTypeValue =
@@ -15,7 +9,7 @@ type SourceTypeValue =
   | "ACADEMIC"
   | "OTHER";
 
-type SampleConflict = {
+type BootstrapConflict = {
   slug: string;
   name: string;
   shortName: string;
@@ -60,14 +54,14 @@ type SampleConflict = {
   snapshots: Array<{
     snapshotDate: Date;
     displayedKilledTotal: number;
-    displayedInjuredTotal: number;
-    dailyIncreaseKilled: number;
-    dailyIncreaseInjured: number;
+    displayedInjuredTotal: number | null;
+    dailyIncreaseKilled: number | null;
+    dailyIncreaseInjured: number | null;
     smoothingHours: number;
   }>;
 };
 
-const sampleConflicts: SampleConflict[] = [
+const bootstrapConflicts: BootstrapConflict[] = [
   {
     slug: "gaza",
     name: "Gaza Strip War",
@@ -235,7 +229,7 @@ const sampleConflicts: SampleConflict[] = [
     },
     source: {
       sourceType: "UN",
-      title: "Sudan crisis deepens amid rising civilian casualties, growing ethnic violence and grim humanitarian situation – UN report",
+      title: "Sudan crisis deepens amid rising civilian casualties, growing ethnic violence and grim humanitarian situation - UN report",
       publisher: "United Nations in Sudan",
       url: "https://sudan.un.org/en/301876-sudan-crisis-deepens-amid-rising-civilian-casualties-growing-ethnic-violence-and-grim",
       publishedAt: new Date("2025-09-19"),
@@ -265,14 +259,14 @@ const sampleConflicts: SampleConflict[] = [
   },
 ];
 
-async function main() {
-  await prisma.dailyCounterSnapshot.deleteMany();
-  await prisma.source.deleteMany();
-  await prisma.casualtyRecord.deleteMany();
-  await prisma.siteSetting.deleteMany();
-  await prisma.conflict.deleteMany();
+export async function seedBootstrapData(prisma: PrismaClient) {
+  const existingConflicts = await prisma.conflict.count();
 
-  for (const item of sampleConflicts) {
+  if (existingConflicts > 0) {
+    return false;
+  }
+
+  for (const item of bootstrapConflicts) {
     const conflict = await prisma.conflict.create({
       data: {
         slug: item.slug,
@@ -314,27 +308,27 @@ async function main() {
     });
   }
 
-  await prisma.siteSetting.createMany({
-    data: [
-      {
-        key: "site.disclaimer",
-        value:
-          "Starter records are sourced from cited UN, UNICEF, and OHCHR reporting and should be updated as newer official figures become available.",
-      },
-      {
-        key: "site.theme",
-        value: "dark-newsroom",
-      },
-    ],
+  await prisma.siteSetting.upsert({
+    where: { key: "site.disclaimer" },
+    update: {
+      value:
+        "Starter records are sourced from cited UN, UNICEF, and OHCHR reporting and should be updated as newer official figures become available.",
+    },
+    create: {
+      key: "site.disclaimer",
+      value:
+        "Starter records are sourced from cited UN, UNICEF, and OHCHR reporting and should be updated as newer official figures become available.",
+    },
   });
-}
 
-main()
-  .then(async () => {
-    await prisma.$disconnect();
-  })
-  .catch(async (error) => {
-    console.error(error);
-    await prisma.$disconnect();
-    process.exit(1);
+  await prisma.siteSetting.upsert({
+    where: { key: "site.theme" },
+    update: { value: "dark-newsroom" },
+    create: {
+      key: "site.theme",
+      value: "dark-newsroom",
+    },
   });
+
+  return true;
+}

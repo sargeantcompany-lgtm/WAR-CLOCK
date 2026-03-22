@@ -53,9 +53,10 @@ async function connectToDatabase(prisma: { $connect: () => Promise<void> }) {
 
 async function initializeApplication() {
   try {
-    const [{ createApp }, { prisma }] = await Promise.all([
+    const [{ createApp }, { prisma }, { seedBootstrapData }] = await Promise.all([
       import("./app"),
       import("./config/db"),
+      import("./lib/bootstrapSeed"),
     ]);
 
     try {
@@ -66,6 +67,15 @@ async function initializeApplication() {
       logger.info("Prisma migrations applied");
     } catch (error) {
       logger.error("Prisma migrate deploy failed; continuing startup", error);
+    }
+
+    try {
+      const didSeed = await seedBootstrapData(prisma);
+      if (didSeed) {
+        logger.info("Bootstrap seed applied");
+      }
+    } catch (error) {
+      logger.error("Bootstrap seed failed; continuing startup", error);
     }
 
     app.use(createApp());
