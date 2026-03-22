@@ -7,7 +7,6 @@
   "deploy": {
     "healthcheckPath": "/api/health",
     "restartPolicyType": "on_failure",
-    "restartPolicyMaxRetries": 10,
-    "preDeployCommand": "npx prisma migrate deploy"
+    "restartPolicyMaxRetries": 10
   }
 }
