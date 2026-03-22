@@ -1,9 +1,12 @@
 import express from "express";
+import { execFile } from "node:child_process";
+import { promisify } from "node:util";
 import { logger } from "./lib/logger";
 
 const HOST = "0.0.0.0";
 const DB_RETRY_DELAY_MS = 5000;
 const port = Number(process.env.PORT ?? 8080);
+const execFileAsync = promisify(execFile);
 
 let appReady = false;
 let dbReady = false;
@@ -54,6 +57,16 @@ async function initializeApplication() {
       import("./app"),
       import("./config/db"),
     ]);
+
+    try {
+      await execFileAsync("npx", ["prisma", "migrate", "deploy"], {
+        cwd: process.cwd(),
+        env: process.env,
+      });
+      logger.info("Prisma migrations applied");
+    } catch (error) {
+      logger.error("Prisma migrate deploy failed; continuing startup", error);
+    }
 
     app.use(createApp());
     appReady = true;

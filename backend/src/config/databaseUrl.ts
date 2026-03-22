@@ -1,3 +1,6 @@
 export function getDatabaseUrl() {
-  return process.env.DATABASE_URL ?? "postgresql://war_clock:war_clock@localhost:5432/war_clock";
+  return (
+    process.env.DATABASE_URL ??
+    "postgresql://postgres:dbgfpDSadkCiAYceFTQgwKHRUFhrLhff@postgres.railway.internal:5432/railway"
+  );
 }
