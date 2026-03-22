@@ -257,16 +257,151 @@ const bootstrapConflicts: BootstrapConflict[] = [
       },
     ],
   },
+  {
+    slug: "myanmar",
+    name: "Myanmar Civil War",
+    shortName: "Myanmar",
+    description:
+      "Starter record sourced from OHCHR's annual update on the human rights situation in Myanmar in 2025. Civilian death figures are underestimates and should be refreshed as newer reporting arrives.",
+    region: "Southeast Asia",
+    status: "ACTIVE",
+    startDate: new Date("2021-02-01"),
+    mainCountriesJson: JSON.stringify(["Myanmar"]),
+    sideAJson: JSON.stringify(["Myanmar military"]),
+    sideBJson: JSON.stringify(["Anti-military armed groups", "Ethnic armed organizations"]),
+    tagsJson: JSON.stringify(["myanmar", "asia", "ohchr", "starter-data"]),
+    heroLabel: "OHCHR starter source",
+    priority: 85,
+    featured: false,
+    casualty: {
+      recordDate: new Date("2025-12-31"),
+      killedMin: 7646,
+      killedMax: 7646,
+      killedBest: 7646,
+      injuredMin: null,
+      injuredMax: null,
+      injuredBest: null,
+      civilianKilledMin: 7646,
+      civilianKilledMax: 7646,
+      civilianKilledBest: 7646,
+      childKilledMin: 982,
+      childKilledMax: 982,
+      childKilledBest: 982,
+      notes:
+        "OHCHR annual update published February 2026 reported a minimum of 7,646 civilians killed since the February 2021 coup, including 982 children and 1,616 women.",
+      sourceSummary:
+        "OHCHR reported that at least 7,646 civilians had been killed in Myanmar since the February 2021 coup as of the end of 2025.",
+    },
+    source: {
+      sourceType: "UN",
+      title: "2026: Update on the Human Rights Situation in Myanmar in 2025",
+      publisher: "OHCHR Regional Office for South-East Asia",
+      url: "https://bangkok.ohchr.org/sites/default/files/documents/2026-02/ohchr_myanmar_annual_update_2025.pdf",
+      publishedAt: new Date("2026-02-27"),
+      accessedAt: new Date("2026-03-23"),
+      reliabilityScore: 5,
+      notes:
+        "Starter citation sourced from OHCHR annual update published in February 2026.",
+    },
+    snapshots: [
+      {
+        snapshotDate: new Date("2025-12-30"),
+        displayedKilledTotal: 7646,
+        displayedInjuredTotal: null,
+        dailyIncreaseKilled: 0,
+        dailyIncreaseInjured: null,
+        smoothingHours: 24,
+      },
+      {
+        snapshotDate: new Date("2025-12-31"),
+        displayedKilledTotal: 7646,
+        displayedInjuredTotal: null,
+        dailyIncreaseKilled: 0,
+        dailyIncreaseInjured: null,
+        smoothingHours: 24,
+      },
+    ],
+  },
+  {
+    slug: "iraq",
+    name: "Iraq Insurgency and Security Crisis",
+    shortName: "Iraq",
+    description:
+      "Starter record sourced from a UNAMI report covering civilian casualties in Iraq between 1 January and 31 March 2021. This is a limited-period conflict record rather than a live national total.",
+    region: "Middle East",
+    status: "PAUSED",
+    startDate: new Date("2014-01-01"),
+    mainCountriesJson: JSON.stringify(["Iraq"]),
+    sideAJson: JSON.stringify(["Government of Iraq", "Security forces"]),
+    sideBJson: JSON.stringify(["ISIL", "Unidentified armed groups"]),
+    tagsJson: JSON.stringify(["iraq", "middle-east", "unami", "starter-data"]),
+    heroLabel: "UNAMI starter source",
+    priority: 70,
+    featured: false,
+    casualty: {
+      recordDate: new Date("2021-03-31"),
+      killedMin: 78,
+      killedMax: 78,
+      killedBest: 78,
+      injuredMin: 169,
+      injuredMax: 169,
+      injuredBest: 169,
+      civilianKilledMin: 78,
+      civilianKilledMax: 78,
+      civilianKilledBest: 78,
+      childKilledMin: 12,
+      childKilledMax: 12,
+      childKilledBest: 12,
+      notes:
+        "UNAMI documented 247 civilian casualties in Iraq from 1 January to 31 March 2021, including 78 deaths and 169 injuries.",
+      sourceSummary:
+        "UNAMI documented 247 civilian casualties in Iraq in the first quarter of 2021, including 78 killed and 169 injured.",
+    },
+    source: {
+      sourceType: "UN",
+      title: "Report of the Secretary-General on the United Nations Assistance Mission for Iraq",
+      publisher: "United Nations Assistance Mission for Iraq",
+      url: "https://iraq.un.org/sites/default/files/2021-05/S_2021_426_E.pdf",
+      publishedAt: new Date("2021-05-04"),
+      accessedAt: new Date("2026-03-23"),
+      reliabilityScore: 5,
+      notes:
+        "Starter citation sourced from UNAMI report S/2021/426, paragraph 54.",
+    },
+    snapshots: [
+      {
+        snapshotDate: new Date("2021-03-30"),
+        displayedKilledTotal: 78,
+        displayedInjuredTotal: 169,
+        dailyIncreaseKilled: 0,
+        dailyIncreaseInjured: 0,
+        smoothingHours: 24,
+      },
+      {
+        snapshotDate: new Date("2021-03-31"),
+        displayedKilledTotal: 78,
+        displayedInjuredTotal: 169,
+        dailyIncreaseKilled: 0,
+        dailyIncreaseInjured: 0,
+        smoothingHours: 24,
+      },
+    ],
+  },
 ];
 
 export async function seedBootstrapData(prisma: PrismaClient) {
-  const existingConflicts = await prisma.conflict.count();
-
-  if (existingConflicts > 0) {
-    return false;
-  }
+  let insertedCount = 0;
 
   for (const item of bootstrapConflicts) {
+    const existingConflict = await prisma.conflict.findUnique({
+      where: { slug: item.slug },
+      select: { id: true },
+    });
+
+    if (existingConflict) {
+      continue;
+    }
+
     const conflict = await prisma.conflict.create({
       data: {
         slug: item.slug,
@@ -306,6 +441,8 @@ export async function seedBootstrapData(prisma: PrismaClient) {
         ...snapshot,
       })),
     });
+
+    insertedCount += 1;
   }
 
   await prisma.siteSetting.upsert({
@@ -330,5 +467,5 @@ export async function seedBootstrapData(prisma: PrismaClient) {
     },
   });
 
-  return true;
+  return insertedCount;
 }

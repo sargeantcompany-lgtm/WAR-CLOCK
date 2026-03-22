@@ -70,9 +70,9 @@ async function initializeApplication() {
     }
 
     try {
-      const didSeed = await seedBootstrapData(prisma);
-      if (didSeed) {
-        logger.info("Bootstrap seed applied");
+      const insertedCount = await seedBootstrapData(prisma);
+      if (insertedCount > 0) {
+        logger.info(`Bootstrap seed applied for ${insertedCount} conflict(s)`);
       }
     } catch (error) {
       logger.error("Bootstrap seed failed; continuing startup", error);
