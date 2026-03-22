@@ -5,8 +5,22 @@ import type {
   GlobalCounter,
 } from "./types";
 
-export const API_BASE_URL =
-  import.meta.env.VITE_API_BASE_URL ?? "http://localhost:8080/api";
+const PRODUCTION_API_BASE_URL =
+  "https://superb-eagerness-production.up.railway.app/api";
+
+function getApiBaseUrl() {
+  if (import.meta.env.VITE_API_BASE_URL) {
+    return import.meta.env.VITE_API_BASE_URL;
+  }
+
+  if (typeof window !== "undefined" && window.location.hostname !== "localhost") {
+    return PRODUCTION_API_BASE_URL;
+  }
+
+  return "http://localhost:8080/api";
+}
+
+export const API_BASE_URL = getApiBaseUrl();
 
 type FetchOptions = RequestInit & {
   adminToken?: string;
@@ -27,6 +41,10 @@ async function request<T>(path: string, options: FetchOptions = {}): Promise<T> 
     ...options,
     headers,
   });
+
+  if (!response) {
+    throw new Error("No response received from API");
+  }
 
   const data = (await response.json().catch(() => null)) as
     | { error?: { message?: string } }
