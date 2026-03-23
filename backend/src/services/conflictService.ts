@@ -28,6 +28,8 @@ function mapLatestCasualties(record?: {
   return {
     id: record.id,
     recordDate: record.recordDate,
+    allDeathsBest: record.killedBest,
+    officialDeathsBest: record.civilianKilledBest,
     killedBest: record.killedBest,
     injuredBest: record.injuredBest,
     civilianKilledBest: record.civilianKilledBest,
@@ -112,6 +114,8 @@ export const conflictService = {
       casualtyRecords: conflict.casualtyRecords.map((record) => ({
         id: record.id,
         recordDate: record.recordDate,
+        allDeathsBest: record.killedBest,
+        officialDeathsBest: record.civilianKilledBest,
         killedMin: record.killedMin,
         killedMax: record.killedMax,
         killedBest: record.killedBest,

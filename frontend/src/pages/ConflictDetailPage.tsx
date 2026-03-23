@@ -90,7 +90,7 @@ export function ConflictDetailPage() {
 
       <section className="grid gap-5 md:grid-cols-2 xl:grid-cols-4">
         <StatCard
-          label="Documented Killed Total"
+          label="All Deaths Estimate"
           value={
             <AnimatedCounter
               counter={conflict.latestCounter}
@@ -102,18 +102,18 @@ export function ConflictDetailPage() {
           tone="ember"
         />
         <StatCard
-          label="Documented Increase"
-          value={formatNumber(conflict.latestCounter?.documentedIncrease)}
+          label="Official Or UN Count"
+          value={formatNumber(conflict.latestCasualties?.officialDeathsBest)}
           hint={
-            conflict.latestCounter?.isRevision
-              ? "Revision detected. Latest documented total is lower than the previous displayed total."
-              : `Smoothed across ${formatNumber(conflict.latestCounter?.smoothingWindowHours)} hours`
+            conflict.latestCasualties?.officialDeathsBest
+              ? "Narrower official or UN-linked death count stored with the latest record."
+              : "No official or UN-linked narrower count is stored for this conflict yet."
           }
           tone="signal"
         />
         <StatCard
-          label="Latest Recorded Killed"
-          value={formatNumber(conflict.latestCasualties?.killedBest)}
+          label="Latest Recorded All Deaths"
+          value={formatNumber(conflict.latestCasualties?.allDeathsBest)}
           hint={`Casualty record date ${formatDate(conflict.latestCasualties?.recordDate)}`}
         />
         <StatCard
@@ -228,9 +228,9 @@ export function ConflictDetailPage() {
             <thead>
               <tr className="text-[11px] uppercase tracking-[0.26em] text-fog/70">
                 <th className="pb-2 pr-6">Date</th>
-                <th className="pb-2 pr-6">Killed Best</th>
+                <th className="pb-2 pr-6">All Deaths</th>
+                <th className="pb-2 pr-6">Official/UN</th>
                 <th className="pb-2 pr-6">Injured Best</th>
-                <th className="pb-2 pr-6">Civilian Best</th>
                 <th className="pb-2 pr-6">Child Best</th>
                 <th className="pb-2">Summary</th>
               </tr>
@@ -241,11 +241,11 @@ export function ConflictDetailPage() {
                   <td className="rounded-l-2xl bg-black/20 px-4 py-4 text-white">
                     {formatDate(record.recordDate)}
                   </td>
-                  <td className="bg-black/20 px-4 py-4">{formatNumber(record.killedBest)}</td>
-                  <td className="bg-black/20 px-4 py-4">{formatNumber(record.injuredBest)}</td>
+                  <td className="bg-black/20 px-4 py-4">{formatNumber(record.allDeathsBest)}</td>
                   <td className="bg-black/20 px-4 py-4">
-                    {formatNumber(record.civilianKilledBest)}
+                    {formatNumber(record.officialDeathsBest)}
                   </td>
+                  <td className="bg-black/20 px-4 py-4">{formatNumber(record.injuredBest)}</td>
                   <td className="bg-black/20 px-4 py-4">{formatNumber(record.childKilledBest)}</td>
                   <td className="rounded-r-2xl bg-black/20 px-4 py-4">
                     {record.sourceSummary ?? record.notes ?? "Not available"}

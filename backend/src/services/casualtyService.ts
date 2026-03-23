@@ -13,6 +13,8 @@ function mapCasualtyRecord(
   return {
     id: record.id,
     recordDate: record.recordDate,
+    allDeathsBest: record.killedBest,
+    officialDeathsBest: record.civilianKilledBest,
     killedMin: record.killedMin,
     killedMax: record.killedMax,
     killedBest: record.killedBest,

@@ -70,12 +70,12 @@ export function HomePage() {
             Front Page
           </p>
           <h2 className="mt-4 max-w-4xl font-serif text-4xl leading-tight text-white sm:text-5xl">
-            A restrained daily ledger of documented conflict casualties.
+            A restrained daily ledger of conflict death estimates and official counts.
           </h2>
           <p className="mt-5 max-w-3xl text-sm leading-7 text-fog">
-            This interface presents the latest stored totals, source-linked records,
-            and smoothed display counters from the backend. Seeded records in local
-            development are clearly marked as demo placeholders.
+            This interface presents a best current all-deaths estimate alongside a
+            narrower official or UN-linked count where one is available, with
+            source-linked records from the backend.
           </p>
           <div className="mt-8 grid gap-4 sm:grid-cols-3">
             <StatCard
@@ -169,7 +169,7 @@ export function HomePage() {
               <div className="mt-6 grid gap-3 sm:grid-cols-2">
                 <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
                   <p className="text-[11px] uppercase tracking-[0.28em] text-fog/75">
-                    Documented Total
+                    All Deaths Estimate
                   </p>
                   <AnimatedCounter
                     counter={conflict.latestCounter}
@@ -179,16 +179,20 @@ export function HomePage() {
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
                   <p className="text-[11px] uppercase tracking-[0.28em] text-fog/75">
-                    Documented Increase
+                    Official Or UN Count
                   </p>
                   <p className="mt-2 font-serif text-3xl text-signal">
-                    {formatNumber(conflict.latestCounter?.documentedIncrease)}
+                    {formatNumber(conflict.latestCasualties?.officialDeathsBest)}
                   </p>
-                  {conflict.latestCounter?.isRevision ? (
+                  {conflict.latestCasualties?.officialDeathsBest ? (
                     <p className="mt-2 text-xs leading-6 text-fog/80">
-                      Revision case: latest documented total is lower than the prior displayed total, so no upward animation is shown.
+                      Narrower official or UN-linked figure shown beside the broader estimate.
                     </p>
-                  ) : null}
+                  ) : (
+                    <p className="mt-2 text-xs leading-6 text-fog/80">
+                      No narrower official or UN count is stored for this record yet.
+                    </p>
+                  )}
                 </div>
               </div>
 

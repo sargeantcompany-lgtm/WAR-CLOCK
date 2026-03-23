@@ -1,6 +1,8 @@
 export type LatestCasualties = {
   id: number;
   recordDate: string;
+  allDeathsBest: number | null;
+  officialDeathsBest: number | null;
   killedBest: number | null;
   injuredBest: number | null;
   civilianKilledBest: number | null;
@@ -50,6 +52,8 @@ export type SourceRecord = {
 export type CasualtyRecord = {
   id: number;
   recordDate: string;
+  allDeathsBest: number | null;
+  officialDeathsBest: number | null;
   killedMin: number | null;
   killedMax: number | null;
   killedBest: number | null;
