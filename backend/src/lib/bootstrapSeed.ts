@@ -93,9 +93,9 @@ const bootstrapConflicts: BootstrapConflict[] = [
       childKilledMax: 21289,
       childKilledBest: 21289,
       notes:
-        "UNICEF State of Palestine situation update published 5 February 2026; figures reported as of 3 February 2026.",
+        "Broad all-deaths estimate currently uses the same UNICEF-cited reported toll as the official count. Replace this when a stronger independent all-deaths methodology is selected.",
       sourceSummary:
-        "UNICEF reported 71,803 Palestinians killed and 171,230 injured in Gaza since 7 October 2023, including at least 21,289 children killed.",
+        "All deaths estimate: 71,803 reported killed. Official/UN-linked count: 71,803 reported killed in Gaza as of 3 February 2026.",
     },
     source: {
       sourceType: "UN",
@@ -132,7 +132,7 @@ const bootstrapConflicts: BootstrapConflict[] = [
     name: "Russia-Ukraine War",
     shortName: "Ukraine",
     description:
-      "Starter record sourced from the UN Human Rights Monitoring Mission in Ukraine. Figures reflect verified civilian casualties published in February 2026.",
+      "Starter record showing a broader war-deaths estimate alongside the narrower OHCHR verified civilian death count for Ukraine.",
     region: "Eastern Europe",
     status: "ACTIVE",
     startDate: new Date("2022-02-24"),
@@ -144,10 +144,10 @@ const bootstrapConflicts: BootstrapConflict[] = [
     priority: 95,
     featured: true,
     casualty: {
-      recordDate: new Date("2026-01-31"),
-      killedMin: 15172,
-      killedMax: 15172,
-      killedBest: 15172,
+      recordDate: new Date("2026-02-24"),
+      killedMin: 160000,
+      killedMax: 165000,
+      killedBest: 165000,
       injuredMin: 41378,
       injuredMax: 41378,
       injuredBest: 41378,
@@ -158,33 +158,33 @@ const bootstrapConflicts: BootstrapConflict[] = [
       childKilledMax: 766,
       childKilledBest: 766,
       notes:
-        "OHCHR verified civilian casualties for 24 February 2022 to 31 January 2026. Child total combines boys, girls, and children whose sex was not yet known.",
+        "All-deaths estimate reflects a broader war-loss estimate for Ukraine. Official count is OHCHR's verified civilian death toll as of 31 January 2026. The two numbers measure different scopes and are shown side by side on purpose.",
       sourceSummary:
-        "OHCHR verified 15,172 civilians killed and 41,378 injured in Ukraine as of 31 January 2026.",
+        "All deaths estimate: 165,000. Official/UN count: 15,172 verified civilian deaths in Ukraine as of 31 January 2026.",
     },
     source: {
-      sourceType: "UN",
-      title: "Four Years Since the Full-Scale Invasion of Ukraine: Key Facts and Findings",
-      publisher: "UN Human Rights Monitoring Mission in Ukraine",
-      url: "https://ukraine.ohchr.org/sites/default/files/2026-02/2026-02-16%20HRMMU_Four%20Years%20On_fact%20sheet_1.pdf",
-      publishedAt: new Date("2026-02-16"),
+      sourceType: "MEDIA",
+      title: "What we know about Russian losses after three years of the war in Ukraine",
+      publisher: "Mediazona",
+      url: "https://en.zona.media/article/2025/02/24/losses",
+      publishedAt: new Date("2025-02-24"),
       accessedAt: new Date("2026-03-23"),
-      reliabilityScore: 5,
+      reliabilityScore: 4,
       notes:
-        "Starter citation sourced from OHCHR/HRMMU fact sheet published February 2026.",
+        "Broader war-loss estimate source. Official OHCHR civilian count is stored separately in the casualty record fields and summary text.",
     },
     snapshots: [
       {
-        snapshotDate: new Date("2026-01-30"),
-        displayedKilledTotal: 15172,
+        snapshotDate: new Date("2026-02-23"),
+        displayedKilledTotal: 165000,
         displayedInjuredTotal: 41378,
         dailyIncreaseKilled: 0,
         dailyIncreaseInjured: 0,
         smoothingHours: 24,
       },
       {
-        snapshotDate: new Date("2026-01-31"),
-        displayedKilledTotal: 15172,
+        snapshotDate: new Date("2026-02-24"),
+        displayedKilledTotal: 165000,
         displayedInjuredTotal: 41378,
         dailyIncreaseKilled: 0,
         dailyIncreaseInjured: 0,
@@ -327,7 +327,7 @@ const bootstrapConflicts: BootstrapConflict[] = [
     name: "Iraq Insurgency and Security Crisis",
     shortName: "Iraq",
     description:
-      "Starter record sourced from a UNAMI report covering civilian casualties in Iraq between 1 January and 31 March 2021. This is a limited-period conflict record rather than a live national total.",
+      "Starter record showing a broad Iraq Body Count total alongside a narrower documented civilian count, rather than a limited single-quarter UNAMI figure.",
     region: "Middle East",
     status: "PAUSED",
     startDate: new Date("2014-01-01"),
@@ -339,47 +339,47 @@ const bootstrapConflicts: BootstrapConflict[] = [
     priority: 70,
     featured: false,
     casualty: {
-      recordDate: new Date("2021-03-31"),
-      killedMin: 78,
-      killedMax: 78,
-      killedBest: 78,
+      recordDate: new Date("2026-02-28"),
+      killedMin: 300000,
+      killedMax: 300000,
+      killedBest: 300000,
       injuredMin: 169,
       injuredMax: 169,
       injuredBest: 169,
-      civilianKilledMin: 78,
-      civilianKilledMax: 78,
-      civilianKilledBest: 78,
+      civilianKilledMin: 187499,
+      civilianKilledMax: 211046,
+      civilianKilledBest: 211046,
       childKilledMin: 12,
       childKilledMax: 12,
       childKilledBest: 12,
       notes:
-        "UNAMI documented 247 civilian casualties in Iraq from 1 January to 31 March 2021, including 78 deaths and 169 injuries.",
+        "All-deaths estimate uses Iraq Body Count's running total including combatants. Official/narrower count uses Iraq Body Count's documented civilian deaths from violence since 2003.",
       sourceSummary:
-        "UNAMI documented 247 civilian casualties in Iraq in the first quarter of 2021, including 78 killed and 169 injured.",
+        "All deaths estimate: 300,000. Official/documented civilian count: 187,499-211,046 deaths from violence since 2003.",
     },
     source: {
-      sourceType: "UN",
-      title: "Report of the Secretary-General on the United Nations Assistance Mission for Iraq",
-      publisher: "United Nations Assistance Mission for Iraq",
-      url: "https://iraq.un.org/sites/default/files/2021-05/S_2021_426_E.pdf",
-      publishedAt: new Date("2021-05-04"),
+      sourceType: "OTHER",
+      title: "Iraq Body Count",
+      publisher: "Iraq Body Count",
+      url: "https://www.iraqbodycount.org/",
+      publishedAt: new Date("2026-02-28"),
       accessedAt: new Date("2026-03-23"),
-      reliabilityScore: 5,
+      reliabilityScore: 4,
       notes:
-        "Starter citation sourced from UNAMI report S/2021/426, paragraph 54.",
+        "Broader all-deaths and documented civilian count source for Iraq.",
     },
     snapshots: [
       {
-        snapshotDate: new Date("2021-03-30"),
-        displayedKilledTotal: 78,
+        snapshotDate: new Date("2026-02-27"),
+        displayedKilledTotal: 300000,
         displayedInjuredTotal: 169,
         dailyIncreaseKilled: 0,
         dailyIncreaseInjured: 0,
         smoothingHours: 24,
       },
       {
-        snapshotDate: new Date("2021-03-31"),
-        displayedKilledTotal: 78,
+        snapshotDate: new Date("2026-02-28"),
+        displayedKilledTotal: 300000,
         displayedInjuredTotal: 169,
         dailyIncreaseKilled: 0,
         dailyIncreaseInjured: 0,
@@ -397,28 +397,52 @@ export async function seedBootstrapData(prisma: PrismaClient) {
       where: { slug: item.slug },
       select: { id: true },
     });
+    const conflict = existingConflict
+      ? await prisma.conflict.update({
+          where: { id: existingConflict.id },
+          data: {
+            name: item.name,
+            shortName: item.shortName,
+            description: item.description,
+            region: item.region,
+            status: item.status,
+            startDate: item.startDate,
+            mainCountriesJson: item.mainCountriesJson,
+            sideAJson: item.sideAJson,
+            sideBJson: item.sideBJson,
+            tagsJson: item.tagsJson,
+            heroLabel: item.heroLabel,
+            priority: item.priority,
+            featured: item.featured,
+          },
+        })
+      : await prisma.conflict.create({
+          data: {
+            slug: item.slug,
+            name: item.name,
+            shortName: item.shortName,
+            description: item.description,
+            region: item.region,
+            status: item.status,
+            startDate: item.startDate,
+            mainCountriesJson: item.mainCountriesJson,
+            sideAJson: item.sideAJson,
+            sideBJson: item.sideBJson,
+            tagsJson: item.tagsJson,
+            heroLabel: item.heroLabel,
+            priority: item.priority,
+            featured: item.featured,
+          },
+        });
 
-    if (existingConflict) {
-      continue;
-    }
-
-    const conflict = await prisma.conflict.create({
-      data: {
-        slug: item.slug,
-        name: item.name,
-        shortName: item.shortName,
-        description: item.description,
-        region: item.region,
-        status: item.status,
-        startDate: item.startDate,
-        mainCountriesJson: item.mainCountriesJson,
-        sideAJson: item.sideAJson,
-        sideBJson: item.sideBJson,
-        tagsJson: item.tagsJson,
-        heroLabel: item.heroLabel,
-        priority: item.priority,
-        featured: item.featured,
-      },
+    await prisma.casualtyRecord.deleteMany({
+      where: { conflictId: conflict.id },
+    });
+    await prisma.source.deleteMany({
+      where: { conflictId: conflict.id },
+    });
+    await prisma.dailyCounterSnapshot.deleteMany({
+      where: { conflictId: conflict.id },
     });
 
     await prisma.casualtyRecord.create({
@@ -449,12 +473,12 @@ export async function seedBootstrapData(prisma: PrismaClient) {
     where: { key: "site.disclaimer" },
     update: {
       value:
-        "Starter records are sourced from cited UN, UNICEF, and OHCHR reporting and should be updated as newer official figures become available.",
+        "Starter records pair a broader all-deaths estimate with a narrower official or UN-linked count where available. Methodologies differ by conflict and should be reviewed before publication.",
     },
     create: {
       key: "site.disclaimer",
       value:
-        "Starter records are sourced from cited UN, UNICEF, and OHCHR reporting and should be updated as newer official figures become available.",
+        "Starter records pair a broader all-deaths estimate with a narrower official or UN-linked count where available. Methodologies differ by conflict and should be reviewed before publication.",
     },
   });
 
