@@ -54,6 +54,8 @@ function mapPublicConflictListItem(
     description: conflict.description,
     region: conflict.region,
     status: conflict.status,
+    startDate: conflict.startDate,
+    endDate: conflict.endDate,
     featured: conflict.featured,
     priority: conflict.priority,
     latestCasualties: mapLatestCasualties(latestCasualty),

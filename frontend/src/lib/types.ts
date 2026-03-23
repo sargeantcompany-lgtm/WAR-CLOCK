@@ -30,6 +30,8 @@ export type ConflictListItem = {
   description: string;
   region: string;
   status: "ACTIVE" | "PAUSED" | "ENDED";
+  startDate: string | null;
+  endDate: string | null;
   featured: boolean;
   priority: number;
   latestCasualties: LatestCasualties | null;
@@ -72,8 +74,6 @@ export type CasualtyRecord = {
 };
 
 export type ConflictDetail = ConflictListItem & {
-  startDate: string | null;
-  endDate: string | null;
   mainCountries: string[] | string;
   sideA: string[] | string;
   sideB: string[] | string;

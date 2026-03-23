@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { api, API_BASE_URL } from "@/lib/api";
-import { formatDateTime, formatNumber } from "@/lib/format";
+import { formatDate, formatDateTime, formatNumber } from "@/lib/format";
 import type { ConflictListItem, GlobalCounter } from "@/lib/types";
 import { AnimatedCounter } from "@/components/AnimatedCounter";
 import { SectionHeading } from "@/components/SectionHeading";
@@ -176,6 +176,10 @@ export function HomePage() {
                     toneClassName="text-ember"
                     sizeClassName="text-3xl"
                   />
+                  <p className="mt-2 text-xs leading-6 text-fog/80">
+                    Since {formatDate(conflict.startDate)}.
+                    Estimate dated {formatDate(conflict.latestCasualties?.recordDate)}.
+                  </p>
                 </div>
                 <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
                   <p className="text-[11px] uppercase tracking-[0.28em] text-fog/75">
@@ -186,7 +190,8 @@ export function HomePage() {
                   </p>
                   {conflict.latestCasualties?.officialDeathsBest ? (
                     <p className="mt-2 text-xs leading-6 text-fog/80">
-                      Narrower official or UN-linked figure shown beside the broader estimate.
+                      Since {formatDate(conflict.startDate)}. Reported as of{" "}
+                      {formatDate(conflict.latestCasualties?.recordDate)}.
                     </p>
                   ) : (
                     <p className="mt-2 text-xs leading-6 text-fog/80">
@@ -197,7 +202,7 @@ export function HomePage() {
               </div>
 
               <p className="mt-5 text-xs uppercase tracking-[0.24em] text-fog/70">
-                Latest casualty record: {formatDateTime(conflict.latestCasualties?.updatedAt)}
+                Latest casualty record updated {formatDateTime(conflict.latestCasualties?.updatedAt)}
               </p>
             </Link>
           ))}

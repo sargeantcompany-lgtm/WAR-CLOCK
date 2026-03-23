@@ -98,7 +98,7 @@ export function ConflictDetailPage() {
               sizeClassName="text-4xl"
             />
           }
-          hint={`Previous display ${formatNumber(conflict.latestCounter?.previousDisplayedTotal)}`}
+          hint={`Since ${formatDate(conflict.startDate)}. Estimate dated ${formatDate(conflict.latestCasualties?.recordDate)}.`}
           tone="ember"
         />
         <StatCard
@@ -106,7 +106,7 @@ export function ConflictDetailPage() {
           value={formatNumber(conflict.latestCasualties?.officialDeathsBest)}
           hint={
             conflict.latestCasualties?.officialDeathsBest
-              ? "Narrower official or UN-linked death count stored with the latest record."
+              ? `Since ${formatDate(conflict.startDate)}. Reported as of ${formatDate(conflict.latestCasualties?.recordDate)}.`
               : "No official or UN-linked narrower count is stored for this conflict yet."
           }
           tone="signal"
